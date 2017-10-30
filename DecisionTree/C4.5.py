@@ -27,23 +27,29 @@ def splitDataSet(dataSet, axis, value):
     res = np.hstack([dataUse[:, :axis], dataUse[: ,axis+1:]])
     return res
 
-# 选择信息增益最大的特征
+# 选择信息增益比最大的特征
 def chooseBestFeatureToSplit(dataSet):
     n = dataSet.shape[1] - 1
     baseEnt = calcEnt(dataSet)
-    bestGain = 0
+    bestGainRatio = 0
     bestFeature = -1
     for i in range(n):
         uniqueVals = set(dataSet[:, i])
         newEnt = 0
+        splitInformation = 0
         for value in uniqueVals:
             subDataSet = splitDataSet(dataSet, i, value)
             p = len(subDataSet) / len(dataSet)
             newEnt += p * calcEnt(subDataSet)
-        Gain = baseEnt - newEnt
-        if (Gain > bestGain):
-            bestGain = Gain
-            bestFeature = i
+            splitInformation -= p * np.log2(p)
+        if splitInformation == 0:
+            pass
+        else:
+            infoGain = baseEnt - newEnt
+            gainRatio = infoGain / splitInformation
+            if gainRatio > bestGainRatio:
+                bestGainRatio = gainRatio
+                bestFeature = i
     return bestFeature
 
 # 取多数为叶节点的类
@@ -84,6 +90,3 @@ def createDataSet():
 myData, labels = createDataSet()
 t = createTree(myData, labels)
 print(t)
-
-
-
