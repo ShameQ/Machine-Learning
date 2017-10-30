@@ -34,15 +34,3 @@ def autoNorm(dataSet):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
