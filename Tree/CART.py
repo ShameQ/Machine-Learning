@@ -1,5 +1,5 @@
 '''
-@author: ShameQ
+@author: memojun
 @github: https://github.com/ShameQ
 '''
 
